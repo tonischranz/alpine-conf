@@ -46,7 +46,7 @@ fi
 shift
 
 while ! isin "$de" $valid_desktops; do
-	ask "Which desktop environment? ('gnome', 'plasma', 'xfce' or 'none')" none
+	ask "Which desktop environment? ('gnome', 'plasma', 'xfce', 'lxqt' or 'none')" none
 	de="$resp"
 done
 
@@ -64,6 +64,15 @@ case "$de" in
 			xfce4-terminal \
 			"$@"
 		rc-update add lightdm
+		;;
+  	lxqt)
+		setup-xorg-base lxqt-desktop ${BROWSER:-firefox} \
+			sddm \
+			setxkbmap \
+   			papirus-icon-theme \
+	  		font-dejavu \
+			"$@"
+		rc-update add sddm
 		;;
 	gnome)
 		setup-xorg-base ${BROWSER:-firefox} $(apk info --quiet --depends \
